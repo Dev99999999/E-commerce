@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS card(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    userid INT NOT NULL,
+    productid INT NOT NULL,
+    qty INT NOt NULL,
+    added TIMESTAMP DEFAULT CURRENT_TIMESTAMP(),
+
+    FOREIGN KEY (userid) REFERENCES users(id),
+    FOREIGN KEY (productid) REFERENCES product(id)
+)ENGINE=INNODB;

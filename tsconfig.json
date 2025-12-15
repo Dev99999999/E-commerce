@@ -1,0 +1,45 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+
+    // File Layout
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    // Environment Settings
+    // Node.js Backend Settings
+    "module": "commonjs",
+    "target": "es2020",
+
+    // Node.js types
+    "types": ["node"], 
+    // and run: npm install -D @types/node
+
+    // JSON import allowed
+    "resolveJsonModule": true,
+ 
+    // Outputs
+    "sourceMap": true,
+
+    // Only keep declaration if you are publishing npm packages
+    "declaration": false,
+    "declarationMap": false,
+
+    // Stricter Typechecking Options
+    // (Keep only useful ones)
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+    "exactOptionalPropertyTypes": false,
+
+    // Recommended Node.js Settings
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": false,
+    "skipLibCheck": true,
+  },
+
+  // Includes & Excludes
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
