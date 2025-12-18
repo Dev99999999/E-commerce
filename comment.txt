@@ -1,1 +1,65 @@
 hii
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TASK1",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "The Users API"
+    }
+  ],
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "User Signup",
+        "requestBody": {
+          "description": "Signup user data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User Signup Successfully"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "required": ["phone", "name", "city", "gender", "password", "hobbies", "role"],
+        "properties": {
+          "phone": {
+            "type": "string",
+            "example": "Dev"
+          },
+          "email": {
+            "type": "string",
+            "example": "dev@gmail.com"
+          },
+          "password": {
+            "type": "string",
+            "example": "123456"
+          }
+        }
+      }
+    }
+  }
+}
