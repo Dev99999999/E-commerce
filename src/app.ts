@@ -4,7 +4,7 @@ import UserRouter from './app/routes/user';
 import ProductRouter from './app/routes/product';
 import cardRouter from './app/routes/card';
 import swaggerUI from 'swagger-ui-express'
-import swagger from './swagger'
+import swagger from './swagger_ui/swagger'
 // import swaggerSpec from './swagger';
 // import swaggerDocs from './swagger_ui/swaggerDocs.json'
 
