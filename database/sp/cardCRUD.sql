@@ -28,6 +28,7 @@ BEGIN
 
     ELSEIF action_type = 'SELECT BY ID' THEN
     SELECT
+            c.id
             c.userid,
             u.name AS username,
             c.productid,

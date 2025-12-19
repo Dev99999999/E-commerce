@@ -5,7 +5,7 @@ CREATE PROCEDURE productCRUD(
     IN p_id INT,
     IN p_name VARCHAR(100),
     IN p_price BIGINT,
-    IN p_qty BIGINT,
+    IN p_qty INT,
     IN p_description TEXT,
     IN p_image VARCHAR(100)
 )

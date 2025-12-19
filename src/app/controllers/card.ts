@@ -10,22 +10,24 @@ class cardController {
 
             const qty = await cardSchema.safeParseAsync(req.body)
 
+            console.log(qty.data)
+
             if(!qty.success){
                 return res.status(300).json({
                     success: false,
-                    message: qty.error
+                    message: qty.error.format()
                 })
             }
 
             const result = await card.addCard({
                 userid: req.user.id,
                 productid: req.params.id,
-                qty: qty.data
+                qty:  qty.data.qty
             })
 
             return res.status(200).json({
                 success: true,
-                message: "New product added..",
+                message: "New product added in Card..",
                 data: result
             })
 

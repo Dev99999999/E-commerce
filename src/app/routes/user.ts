@@ -145,6 +145,7 @@ router.put("/update", auth.Authorization, upload.single("image"), userController
  */
 router.delete("/delete", auth.Authorization, userController.delete)
 
+
 /**
  * @swagger
  * /selectAll:
@@ -164,6 +165,7 @@ router.delete("/delete", auth.Authorization, userController.delete)
  *         description: Bad Request
  */
 router.get("/selectAll", auth.Authorization, auth.roleAuthorization('admin'), userController.selectAll)
+
 
 /**
  * @swagger

@@ -17,7 +17,7 @@ class productController {
             if(!body.success){
                 return res.status(300).json({
                     success: false,
-                    message: body.error
+                    message: body.error.format()
                 })
             }
 

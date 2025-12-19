@@ -57,6 +57,10 @@ class productModel {
     }
 
     async delete(id: number) {
+
+        const [currentRows]: any = await pool.query("SELECT * FROM product WHERE id = ?", [id]);
+        if (!currentRows.length) throw new Error("Product not found");
+
         const query = "call productCRUD(?,?,?,?,?,?,?)";
         const values = [
             'DELETE',
@@ -95,7 +99,7 @@ class productModel {
             throw error;
         }
     }
-    
+
 }
 
 export default new productModel()

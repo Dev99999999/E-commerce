@@ -32,17 +32,18 @@ const router = express.Router()
  *                 example: 1
  *               description:
  *                 type: string
- *                 example: "This is Good Product.."
+ *                 example: This is Good Product
  *               image:
  *                 type: string
  *                 format: binary
  *     responses:
  *       200:
- *         description: Product Addeded SuccessFully..
+ *         description: New Product Created
  *       400:
  *         description: Bad Request
  */
-router.post("/add-product", auth.Authorization, auth.roleAuthorization, upload.single("image"), product.addProduct)
+router.post("/add-product", auth.Authorization, auth.roleAuthorization('admin'), upload.single("image"), product.addProduct)
+
 
 /**
  * @swagger
@@ -69,13 +70,13 @@ router.post("/add-product", auth.Authorization, auth.roleAuthorization, upload.s
  *             properties:
  *               price:
  *                 type: number
- *                 example: 79999
+ *                 example: 120000
  *               qty:
  *                 type: number
  *                 example: 1
  *               description:
  *                 type: string
- *                 example: Latest Apple iPhone
+ *                 example: This is Good Product
  *               image:
  *                 type: string
  *                 format: binary
@@ -88,6 +89,7 @@ router.post("/add-product", auth.Authorization, auth.roleAuthorization, upload.s
  *         description: Unauthorized
  */
 router.put("/updateproduct/:id", auth.Authorization, auth.roleAuthorization('admin'), upload.single("image"), product.updateProduct)
+
 
 /**
  * @swagger
@@ -114,6 +116,7 @@ router.put("/updateproduct/:id", auth.Authorization, auth.roleAuthorization('adm
  *         description: Unauthorized
  */
 router.delete("/deleteproduct/:id", auth.Authorization, auth.roleAuthorization('admin'), product.deleteProduct)
+
 
 /**
  * @swagger
