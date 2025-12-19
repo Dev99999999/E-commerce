@@ -1,5 +1,6 @@
+import { profile } from "console";
 import product from "../models/product";
-import { productSchema } from "../schema/product";
+import { productCreateSchema, productUpdateSchema } from "../schema/product";
 
 class productController {
     async addProduct(req: any, res: any) {
@@ -12,12 +13,12 @@ class productController {
                 })
             }
 
-            const body = await productSchema.safeParseAsync(req.body)
+            const body = await productCreateSchema.safeParseAsync(req.body)
 
             if(!body.success){
                 return res.status(300).json({
-                    success: false,
-                    message: body.error.format()
+                    Field: body.error.issues[0].path,
+                    message: body.error.issues[0].message
                 })
             }
 
@@ -43,7 +44,16 @@ class productController {
             const id = parseInt(req.params.id);
             const image = req.file ? req.file.filename : null;
 
-            const body = { ...req.body, id};
+            // const body = { ...req.body, id};
+
+            const body = await productUpdateSchema.safeParseAsync({...req.body, id})
+
+            if(!body.success){
+                return res.status(300).json({
+                    Field: body.error.issues[0].path,
+                    message: body.error.issues[0].message
+                })
+            }
 
             const result = await product.updateProduct(body, image);
 

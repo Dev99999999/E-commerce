@@ -19,6 +19,12 @@ BEGIN
     DELETE FROM card 
     WHERE userid = c_userid 
     AND id = c_id;
+    IF ROW_COUNT() = 0 THEN
+    SELECT 'Card not found' AS message, 0 AS success;
+    ELSE
+    SELECT 'Card deleted successfully' AS message, 1 AS success;
+    END IF; 
+
 
     ELSEIF action_type = 'UPDATE' THEN
     UPDATE card

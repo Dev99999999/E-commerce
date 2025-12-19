@@ -2,7 +2,8 @@
 import user from "../models/user"
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
-import { userSchema } from "../schema/user";
+import { userCreateSchema, userUpdateSchema } from "../schema/user";
+import path from "path";
 
 class userCRUD {
 
@@ -18,10 +19,13 @@ class userCRUD {
                     })
                 }
 
-                const body = await userSchema.safeParseAsync(req.body)
+                const body = await userCreateSchema.safeParseAsync(req.body)
 
                 if (!body.success) {
-                    return res.status(300).json({ mesaage: body.error?.format() })
+                    return res.status(300).json({
+                        Field: body.error.issues[0].path,
+                        message: body.error.issues[0].message
+                    })
                 }
 
                 const hashpass = await bcrypt.hash(req.body.password, 10)
@@ -103,7 +107,16 @@ class userCRUD {
             const id = req.user.id;
             const image = req.file ? req.file.filename : null;
 
-            const body = { ...req.body, id };
+            // const body = { ...req.body, id };
+
+            const body = await userUpdateSchema.safeParseAsync({...req?.body, id})
+
+                if (!body.success) {
+                    return res.status(300).json({
+                        Field: body.error.issues[0].path,
+                        message: body.error.issues[0].message
+                    })
+                }
 
             const result = await user.update(body, image);
 

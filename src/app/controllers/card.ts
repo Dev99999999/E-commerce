@@ -1,3 +1,4 @@
+import { success } from "zod";
 import card from "../models/card";
 import { cardSchema } from "../schema/card";
 // import jwt from 'jsonwebtoken';
@@ -8,21 +9,21 @@ class cardController {
     async addCard(req: any, res: any) {
         try {
 
-            const qty = await cardSchema.safeParseAsync(req.body)
+            const body = await cardSchema.safeParseAsync(req.body)
 
-            console.log(qty.data)
+            console.log(body.data)
 
-            if(!qty.success){
+            if(!body.success){
                 return res.status(300).json({
-                    success: false,
-                    message: qty.error.format()
+                    Field: body.error.issues[0].path,
+                    message: body.error.issues[0].message
                 })
             }
 
             const result = await card.addCard({
                 userid: req.user.id,
                 productid: req.params.id,
-                qty:  qty.data.qty
+                qty:  body.data.qty
             })
 
             return res.status(200).json({
@@ -78,9 +79,20 @@ class cardController {
     async updateCard(req: any, res: any) {
         try {
 
+            const body = await cardSchema.safeParseAsync(req.body)
+
+            console.log(body.data)
+
+            if(!body.success){
+                return res.status(300).json({
+                    Field: body.error.issues[0].path,
+                    message: body.error.issues[0].message
+                })
+            }
+
             const cardid = parseInt(req.params.id)
 
-            const result = await card.updateCard(req.user.id, cardid, req.body);
+            const result = await card.updateCard(req.user.id, cardid, body.data.qty);
             // console.log(result)
 
             return res.status(200).json({
@@ -113,7 +125,6 @@ class cardController {
 
             return res.status(200).json({
                 success: true,
-                message: "Card deleted Succefully..",
                 data: result
             });
 
