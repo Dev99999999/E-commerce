@@ -1,4 +1,3 @@
-import { profile } from "console";
 import product from "../models/product";
 import { productCreateSchema, productUpdateSchema } from "../schema/product";
 

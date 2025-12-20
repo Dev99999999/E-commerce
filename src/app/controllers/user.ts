@@ -2,8 +2,7 @@
 import user from "../models/user"
 import jwt from "jsonwebtoken";
 import bcrypt from 'bcrypt';
-import { userCreateSchema, userUpdateSchema } from "../schema/user";
-import path from "path";
+import { userCreateSchema, UserLoginSchema, userUpdateSchema } from "../schema/user";
 
 class userCRUD {
 
@@ -12,23 +11,22 @@ class userCRUD {
 
             if (req.user.role === "admin") {
 
-                if(!req.file){
+                const body = await userCreateSchema.safeParseAsync(req.body)
+
+                if (!body.success) {
+                    return res.status(300).json({
+                        message: `${body.error.issues[0].path} ${body.error.issues[0].message}`
+                    })
+                }
+
+                const hashpass = await bcrypt.hash(req.body.password, 10)
+
+                if (!req.file) {
                     return res.status(400).json({
                         success: false,
                         message: "file is nessary"
                     })
                 }
-
-                const body = await userCreateSchema.safeParseAsync(req.body)
-
-                if (!body.success) {
-                    return res.status(300).json({
-                        Field: body.error.issues[0].path,
-                        message: body.error.issues[0].message
-                    })
-                }
-
-                const hashpass = await bcrypt.hash(req.body.password, 10)
 
                 // const result = await user.signUp(req.body, req?.file.filename)
 
@@ -41,7 +39,7 @@ class userCRUD {
                 })
             }
             else {
-                return res.status(200).json({
+                return res.status(300).json({
                     success: false,
                     message: "This is not admin",
                 })
@@ -57,7 +55,16 @@ class userCRUD {
     async login(req: any, res: any) {
         try {
 
-            const result = await user.login(req.body)
+            const body = await UserLoginSchema.safeParseAsync(req.body)
+
+            if (!body.success) {
+                return res.status(300).json({
+                    Field: body.error.issues[0].path,
+                    message: body.error.issues[0].message
+                })
+            }
+
+            const result = await user.login(body.data)
 
             if (result.length === 0) {
                 return res.status(400).json({
@@ -109,14 +116,14 @@ class userCRUD {
 
             // const body = { ...req.body, id };
 
-            const body = await userUpdateSchema.safeParseAsync({...req?.body, id})
+            const body = await userUpdateSchema.safeParseAsync({ ...req?.body, id })
 
-                if (!body.success) {
-                    return res.status(300).json({
-                        Field: body.error.issues[0].path,
-                        message: body.error.issues[0].message
-                    })
-                }
+            if (!body.success) {
+                return res.status(300).json({
+                    Field: body.error.issues[0].path,
+                    message: body.error.issues[0].message
+                })
+            }
 
             const result = await user.update(body, image);
 
