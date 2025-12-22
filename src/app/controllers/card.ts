@@ -91,7 +91,7 @@ class cardController {
 
             const cardid = parseInt(req.params.id)
 
-            const result = await card.updateCard(req.user.id, cardid, body.data.qty);
+            const result = await card.updateCard(req.user.id, cardid, body.data);
             // console.log(result)
 
             return res.status(200).json({

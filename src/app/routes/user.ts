@@ -24,6 +24,9 @@ const router = express.Router();
  *               phone:
  *                 type: number
  *                 example: 9876226688
+ *               email:
+ *                  type: string
+ *                  example: example@gmail.com
  *               name:
  *                 type: string
  *                 example: Dev
@@ -100,6 +103,9 @@ router.post("/login", userController.login);
  *           schema:
  *             type: object
  *             properties:
+ *               email:
+ *                 type: string
+ *                 example: example@gmail.com
  *               name:
  *                 type: string
  *                 example: Dev

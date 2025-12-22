@@ -37,6 +37,7 @@ BEGIN
             c.id
             c.userid,
             u.name AS username,
+            u.email AS email
             c.productid,
             p.name AS productname,
             c.qty,

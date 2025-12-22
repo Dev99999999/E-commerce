@@ -116,14 +116,16 @@ class userCRUD {
 
             // const body = { ...req.body, id };
 
-            const body = await userUpdateSchema.safeParseAsync({ ...req?.body, id })
+            const updateSchema = await userUpdateSchema.safeParseAsync({...req.body})
 
-            if (!body.success) {
+            if (!updateSchema.success) {
                 return res.status(300).json({
-                    Field: body.error.issues[0].path,
-                    message: body.error.issues[0].message
+                    Field: updateSchema.error.issues[0].path,
+                    message: updateSchema.error.issues[0].message
                 })
             }
+            
+            const body = { ...updateSchema.data, id };
 
             const result = await user.update(body, image);
 
@@ -132,10 +134,10 @@ class userCRUD {
                 message: "User data update SucceFully",
                 data: result
             })
-        } catch (error) {
+        } catch (error: any) {
             return res.status(400).json({
                 success: false,
-                message: error
+                message: error.message
             })
         }
     }

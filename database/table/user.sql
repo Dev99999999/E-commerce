@@ -3,6 +3,7 @@ USE task1;
 CREATE TABLE IF NOT EXISTS users (
     id INT  NOT NULL AUTO_INCREMENT PRIMARY KEY,
     phone BIGINT NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NUll,
     name VARCHAR(30) NOT NULL,
     city INT NOT NULL,
     gender ENUM('male','female') NOT NULL,
