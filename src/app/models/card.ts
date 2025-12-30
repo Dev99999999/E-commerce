@@ -99,11 +99,11 @@ class cardModel {
     }
 
     //for Admin
-    async allCard(){
+    async allCard() {
         const query = "call cardCRUD(?,?,?,?,?,?)";
 
         const values = [
-        'SELECTALL', 
+            'SELECTALL',
             null,
             null,
             null,

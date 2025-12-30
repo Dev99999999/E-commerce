@@ -1,7 +1,7 @@
 import card from "../models/card";
 import { cardSchema } from "../schema/card";
 // import jwt from 'jsonwebtoken';
-
+import nodemailer from "nodemailer";
 
 class cardController {
 
@@ -12,7 +12,7 @@ class cardController {
 
             console.log(body.data)
 
-            if(!body.success){
+            if (!body.success) {
                 return res.status(300).json({
                     Field: body.error.issues[0].path,
                     message: body.error.issues[0].message
@@ -22,7 +22,7 @@ class cardController {
             const result = await card.addCard({
                 userid: req.user.id,
                 productid: req.params.id,
-                qty:  body.data.qty
+                qty: body.data.qty
             })
 
             return res.status(200).json({
@@ -82,7 +82,7 @@ class cardController {
 
             console.log(body.data)
 
-            if(!body.success){
+            if (!body.success) {
                 return res.status(300).json({
                     Field: body.error.issues[0].path,
                     message: body.error.issues[0].message
@@ -133,6 +133,54 @@ class cardController {
                 message: error
             })
         }
+    }
+
+    async deleteCardEmail(req: any, res: any) {
+        try {
+
+            const { email } = req.body
+
+            const transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    user: "sonawanedevendra109@gmail.com",
+                    pass: "ptowlouuumwcppvh",
+                },
+            });
+
+            await transporter.sendMail({
+                from: "sonawanedevendra109@gmail.com",
+                to: email,
+                subject: "Product Deliver",
+                text: "Product Place SucceFully.."
+                // html: "<h1>Hello from Node.js</h1>",
+            });
+
+            res.send("Email sent!");
+            console.log("Email sent successfully!");
+        } catch (err: any) {
+            console.log("Error:", err.message);
+            res.send("Failed to send email");
+        }
+
+        // if (!result) {
+        //     return res.status(404).json({
+        //         success: false,
+        //         message: "Card ID does not exist"
+        //     });
+        // }
+
+        // return res.status(200).json({
+        //     success: true,
+        //     data: result
+        // });
+
+        // } catch (error) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: error
+        //     })
+        // }
     }
 }
 

@@ -132,7 +132,35 @@ router.get("/viewcard", auth.Authorization ,product.getDataForUSer)
  *       400:
  *         description: Bad Request
  */
-router.get("/allcard", auth.Authorization, auth.roleAuthorization('admin') ,product.allCard)
+router.get("/allcard", auth.Authorization, auth.roleAuthorization('admin'), product.allCard)
+
+/**
+ * @swagger
+ * /sendEmail:
+ *   post:
+ *     security:
+ *       - Bearer: []
+ *     tags:
+ *       - cards
+ *     summary: Send Email
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               Email:
+ *                 type: string
+ *                 example: example@gmail.com
+ *     responses:
+ *       200:
+ *         description: Email sent successfully
+ *       400:
+ *         description: Bad Request
+ */
+
+router.post("/sendEmail",auth.Authorization, auth.roleAuthorization('admin'), product.deleteCardEmail)
 
 
 export default router
